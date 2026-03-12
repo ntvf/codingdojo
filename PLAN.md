@@ -6,7 +6,7 @@
 |-------|-----------|
 | **Backend** | Spring Boot 4.0.3, Java 25, WebSocket (STOMP) |
 | **Frontend** | React + Vite, TypeScript, TailwindCSS, shadcn/ui |
-| **Database** | PostgreSQL, Spring Data JPA, Flyway migrations |
+| **Database** | PostgreSQL, Spring Data JPA, Liquibase migrations |
 | **Testing** | JUnit 5 + Mockito (unit), SpringBootTest + Testcontainers (integration), Playwright (E2E) |
 
 ## Architecture
@@ -46,7 +46,7 @@
            │
 ┌──────────▼──────────────────────────┐
 │         PostgreSQL                   │
-│  Flyway-managed schema              │
+│  Liquibase-managed schema            │
 └──────────────────────────────────────┘
 ```
 
@@ -56,7 +56,7 @@
 2. **Join** → Friends open `/rooms/{code}`, enter name, receive auth token
 3. **Connect client** → Player clones language-specific client repo, pastes token into config
 4. **Game runs** → Server runs tick-based game loop; clients poll REST for state & submit moves; viewers watch via WebSocket on the web page
-5. **Late join** → New players can register during a running game and spawn next round
+5. **Late join** → New players can register during a running game. They appear on the game field and leaderboard only after the server receives their first API request (state poll or move). Until then they are registered but inactive — this prevents ghost entries from players who registered but never connected a client.
 6. **Game ends** → After N rounds, leaderboard + funny stats displayed
 
 ## Epics & Tasks
@@ -142,7 +142,7 @@
 
 | ID | Task | Package | Blocks |
 |----|------|---------|--------|
-| `codingdojo-y24` | **7.1 GameResult model + entity** — JPA entity, Flyway migration, fields: score, rounds survived, kills, food eaten, cause of death | `model` | 7.2 |
+| `codingdojo-y24` | **7.1 GameResult model + entity** — JPA entity, Liquibase changelog, fields: score, rounds survived, kills, food eaten, cause of death | `model` | 7.2 |
 | `codingdojo-ssc` | **7.2 StatsCollector service** — Accumulates stats from game events, persists via GameResultRepository | `stats` | 7.3, 7.4 |
 | `codingdojo-ux4` | **7.3 FunnyStatsGenerator** — Humorous superlatives: "Most Suicidal 🐍", "Wall Magnet", "Circle of Life Award" | `stats` | 7.4, 7.5 |
 | `codingdojo-whk` | **7.4 StatsController** — `GET /api/rooms/{code}/results` (leaderboard + funny stats JSON) | `api` | 8.2 |
@@ -204,7 +204,7 @@ These tasks have zero dependencies and can begin immediately:
 - `codingdojo-gci` — 1.2 Room model
 - `codingdojo-5rb` — 1.6 GameConfig properties class
 - `codingdojo-pn2` — 1.7 Jackson JSON configuration
-- `codingdojo-67e` — 1b.1 Enable JPA + PostgreSQL + Flyway + Testcontainers
+- `codingdojo-67e` — 1b.1 Enable JPA + PostgreSQL + Liquibase + Testcontainers
 - `codingdojo-qra` — 3.5 MapConfig model + YAML loader
 - `codingdojo-7w8` — 4.2 SnakeMove enum
 - `codingdojo-yab` — 5.0 WebSocket STOMP configuration

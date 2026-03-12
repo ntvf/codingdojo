@@ -28,7 +28,7 @@ Always use the Maven wrapper (`./mvnw`), not a system `mvn`.
 |-------|-----------|
 | **Backend** | Spring Boot 4.0.3, Java 25, WebSocket (STOMP) |
 | **Frontend** | React + Vite, TypeScript, TailwindCSS, shadcn/ui (in `frontend/`) |
-| **Database** | PostgreSQL, Spring Data JPA, Flyway migrations |
+| **Database** | PostgreSQL, Spring Data JPA, Liquibase migrations |
 | **Testing** | JUnit 5 + Mockito (unit), SpringBootTest + Testcontainers (integration), Playwright (E2E) |
 
 ## Package Structure
@@ -63,7 +63,7 @@ Base package: `me._on.codingdojo.server` (maps to groupId `me.9on.codingdojo`; t
 | `spring-boot-starter-webmvc` | Web layer (REST controllers, MVC) |
 | `spring-boot-starter-websocket` | STOMP over WebSocket for real-time game state |
 | `spring-boot-starter-data-jpa` | PostgreSQL persistence via Spring Data |
-| Flyway | Database migrations (`src/main/resources/db/migration/`) |
+| Liquibase | Database migrations (`src/main/resources/db/changelog/`) |
 | Lombok | Use `@Data`, `@Builder`, etc. Annotation processor is configured in `pom.xml`. |
 | JUnit 5 + Mockito | Unit tests (no Spring context) |
 | Testcontainers (PostgreSQL) | Integration tests with real DB |
@@ -88,6 +88,31 @@ Base package: `me._on.codingdojo.server` (maps to groupId `me.9on.codingdojo`; t
 - `src/main/resources/application.yaml` — YAML format (not `.properties`).
 - Add new config properties in YAML style to this file.
 - Game settings under `dojo.game.*` prefix.
+
+## Task Tracker (beads)
+
+This project uses [beads](https://github.com/jwalsh/beads) for issue/task tracking. The database lives in `.beads/`.
+
+```sh
+# Browsing
+bd list                         # list all open issues
+bd list --status blocked        # show blocked issues
+bd ready                        # tasks with zero blockers (start here)
+bd show <id>                    # full details + deps for one issue
+bd stats                        # summary: open, blocked, ready, closed
+bd blocked                      # blocked issues + what's blocking them
+
+# Working
+bd update <id> --status in_progress   # claim a task
+bd close <id>                         # mark done
+bd create --title "..." --type task   # new issue
+bd dep <id> --on <blocker-id>         # add dependency
+
+# Sync (before push)
+bd sync                         # sync beads DB to jsonl for git
+```
+
+Issue IDs are prefixed `codingdojo-` (e.g., `codingdojo-jcv`).
 
 
 ## Landing the Plane (Session Completion)
