@@ -77,9 +77,9 @@
 
 | ID | Task | Package | Blocks |
 |----|------|---------|--------|
-| `codingdojo-67e` | **1b.1 Enable JPA + PostgreSQL + Flyway + Testcontainers in pom.xml** — Uncomment JPA, add pg driver, Flyway, Testcontainers deps | `pom.xml` | 1b.2 |
-| `codingdojo-6hh` | **1b.2 Datasource & Flyway config in application.yaml** — spring.datasource, spring.jpa, spring.flyway. Test profile uses Testcontainers. | `config` | 1b.3, 1b.4 |
-| `codingdojo-m2m` | **1b.3 JPA entities + repositories for Player & Room** — `@Entity` annotations, Spring Data repos, V1 Flyway migration SQL | `model` | 2.1, 2.2 |
+| `codingdojo-67e` | **1b.1 Enable JPA + PostgreSQL + Liquibase + Testcontainers in pom.xml** — Uncomment JPA, add pg driver, Liquibase, Testcontainers deps | `pom.xml` | 1b.2 |
+| `codingdojo-6hh` | **1b.2 Datasource & Liquibase config in application.yaml** — spring.datasource, spring.jpa, spring.liquibase. Test profile uses Testcontainers. | `config` | 1b.3, 1b.4 |
+| `codingdojo-m2m` | **1b.3 JPA entities + repositories for Player & Room** — `@Entity` annotations, Spring Data repos, Liquibase changelog YAML | `model` | 2.1, 2.2 |
 | `codingdojo-cei` | **1b.4 Testcontainers base configuration** — `@TestConfiguration` with `@ServiceConnection` for PostgresContainer. `AbstractIntegrationTest` base class. | `test` | 8.1 |
 
 ### Epic 2: Room & Player Management `P0`
@@ -158,6 +158,15 @@
 | `codingdojo-49z` | **8.4 Rate-limiting / anti-cheat** — One move per tick per player, reject duplicates (429) | `api` | — |
 | `codingdojo-7xx` | **8.5 API documentation** — springdoc-openapi + Swagger UI at `/swagger-ui.html` | `config` | — |
 
+### Epic 9: Test Client SDK (Java Reference Implementation) `P1`
+
+| ID | Task | Package | Blocks |
+|----|------|---------|--------|
+| `codingdojo-3cq` | **9.1 Client SDK interface** — `GameClient` abstraction: `connect(token)`, `getState()`, `sendMove()`. Defines the contract all language clients implement. | `test` | 9.2, 9.3 |
+| `codingdojo-35q` | **9.2 Java reference bot** — RestClient-based test bot with simple snake AI (avoid walls, chase food). Template for user repos. | `test` | 9.4 |
+| `codingdojo-fpf` | **9.3 Client API documentation** — Markdown spec: auth, endpoints, request/response shapes, error codes. Contract for bot developers. | `docs/` | — |
+| `codingdojo-4t9` | **9.4 Multi-bot integration test** — N bots play a full snake game via SpringBootTest + Testcontainers. Verifies leaderboard + stats. | `test` | — |
+
 ## Critical Path
 
 ```
@@ -177,18 +186,21 @@ Phase 2 — Room/Player + Engine (P0)
   │         3.5 MapConfig (parallel)
   │         3.6 EngineRegistry (parallel)
   │
-Phase 3 — Snake + API + Frontend scaffold (P1, parallel tracks)
+Phase 3 — Snake + API + Frontend + Test Client (P1, parallel tracks)
   │   Track A: 4.1–4.5 Snake implementation
   │   Track B: 5.0–5.5 REST API + WebSocket
   │   Track C: 6.1–6.4 React scaffold + pages
+  │   Track D: 9.1–9.2 Test client SDK + Java reference bot
   │
-Phase 4 — Viewer + Stats (P2)
+Phase 4 — Viewer + Stats + Docs (P2)
   │   6.5 Game viewer (needs 5.4 broadcast)
   │   7.1–7.5 Leaderboard + funny stats
   │   6.6 Results page, 6.7 CORS/serving
+  │   9.3 Client API documentation
   │
 Phase 5 — Polish (P3)
       8.1–8.5 Integration tests, Playwright E2E, rate-limiting, Swagger
+      9.4 Multi-bot integration test
 
   ════════════════════════════════════════
   ✅ Playable via REST after Phase 3
@@ -204,7 +216,7 @@ These tasks have zero dependencies and can begin immediately:
 - `codingdojo-gci` — 1.2 Room model
 - `codingdojo-5rb` — 1.6 GameConfig properties class
 - `codingdojo-pn2` — 1.7 Jackson JSON configuration
-- `codingdojo-67e` — 1b.1 Enable JPA + PostgreSQL + Liquibase + Testcontainers
+- `codingdojo-67e` — 1b.1 Enable JPA + PostgreSQL + Liquibase + Testcontainers in pom.xml
 - `codingdojo-qra` — 3.5 MapConfig model + YAML loader
 - `codingdojo-7w8` — 4.2 SnakeMove enum
 - `codingdojo-yab` — 5.0 WebSocket STOMP configuration

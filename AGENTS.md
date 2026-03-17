@@ -93,26 +93,63 @@ Base package: `me._on.codingdojo.server` (maps to groupId `me.9on.codingdojo`; t
 
 This project uses [beads](https://github.com/jwalsh/beads) for issue/task tracking. The database lives in `.beads/`.
 
+Issue IDs are prefixed `codingdojo-` (e.g., `codingdojo-jcv`).
+
+### CLI Commands (`bd`)
+
 ```sh
 # Browsing
-bd list                         # list all open issues
-bd list --status blocked        # show blocked issues
-bd ready                        # tasks with zero blockers (start here)
-bd show <id>                    # full details + deps for one issue
-bd stats                        # summary: open, blocked, ready, closed
-bd blocked                      # blocked issues + what's blocking them
+bd list                                   # list all open issues (default limit 50)
+bd list -n 0                              # list ALL open issues (no limit)
+bd list --status blocked                  # show blocked issues
+bd list --status in_progress              # show work in progress
+bd list -t epic                           # list only epics
+bd list -t task -p P0                     # P0 tasks only
+bd list --ready                           # tasks with zero blockers (start here)
+bd list --pretty                          # tree view with status/priority symbols
+bd ready                                  # alias for --ready, shows what to work on next
+bd show <id>                              # full details + deps for one issue
+bd show <id> --long                       # extra verbose output
+bd stats                                  # summary: open, blocked, ready, closed
+bd blocked                                # blocked issues + what's blocking them
 
 # Working
-bd update <id> --status in_progress   # claim a task
-bd close <id>                         # mark done
-bd create --title "..." --type task   # new issue
-bd dep <id> --on <blocker-id>         # add dependency
+bd update <id> --status in_progress       # claim a task
+bd update <id> --status open              # unclaim / put back
+bd update <id> --priority P1              # change priority
+bd update <id> --assignee "name"          # assign to someone
+bd close <id>                             # mark done
+bd create --title "..." --type task       # new task
+bd create --title "..." --type bug -p P0  # new P0 bug
+bd create --title "..." --type epic       # new epic
+bd dep <id> --on <blocker-id>             # add blocking dependency
+bd dep <id> --on <parent-id> --type parent-child  # add parent-child relationship
 
-# Sync (before push)
-bd sync                         # sync beads DB to jsonl for git
+# Output formats
+bd list --json                            # JSON output (for scripting)
+bd list --format dot                      # Graphviz dependency graph
+
+# Sync (before push — MANDATORY)
+bd sync                                   # sync beads DB to jsonl for git
 ```
 
-Issue IDs are prefixed `codingdojo-` (e.g., `codingdojo-jcv`).
+### MCP Tools (for AI agents)
+
+When using beads via MCP tools (e.g., in Copilot), the equivalent operations are:
+
+| CLI | MCP Tool |
+|-----|----------|
+| `bd list` | `mcp_beads_list` |
+| `bd ready` | `mcp_beads_ready` |
+| `bd show <id>` | `mcp_beads_show(issue_id=...)` |
+| `bd stats` | `mcp_beads_stats` |
+| `bd blocked` | `mcp_beads_blocked` |
+| `bd create` | `mcp_beads_create(title=..., issue_type=..., priority=...)` |
+| `bd update` | `mcp_beads_update(issue_id=..., status=...)` |
+| `bd close` | `mcp_beads_close(issue_id=...)` |
+| `bd dep` | `mcp_beads_dep(issue_id=..., depends_on_id=...)` |
+
+**Important**: The beads daemon must be running (`bd daemon start`) for MCP tools to work. If you get connection errors, start the daemon first via terminal.
 
 
 ## Landing the Plane (Session Completion)
