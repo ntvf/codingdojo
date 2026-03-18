@@ -113,6 +113,22 @@ When enabled, Checkstyle will validate:
 - Whitespace and formatting
 - Javadoc comments
 
+### Code Naming & Documentation
+
+**Prioritize straightforward and simple code naming over Javadoc comments.**
+
+- Use clear, self-documenting variable, method, and class names that express intent without comments
+- Avoid cryptic abbreviations; spell out words unless widely recognized (e.g., `id`, `url`, `http`)
+- Examples of good naming:
+  - ✅ `calculateSnakeNewHeadPosition()` instead of `calcHeadPos()` + javadoc
+  - ✅ `isWallCollision()` instead of `checkWall()` + javadoc
+  - ✅ `snakeBody` instead of `body` or `sb` + javadoc
+  - ✅ `spawnFoodAtRandomEmptyCell()` instead of `spawnFood()` + javadoc
+  
+- **Do NOT add Javadoc comments** to explain what the code does if the name and code structure are self-explanatory
+- **DO add Javadoc only for** public API contracts, tricky algorithms, or non-obvious side effects
+- Keep code concise and readable; readability is more important than documentation volume
+
 **CRITICAL**: Do NOT commit or push unless `mvn clean install` succeeds with all tests passing AND all coverage thresholds are met. If tests fail or coverage is insufficient, fix the issues and re-run until success.
 
 **JaCoCo Code Coverage Gates** (ACTIVE):
