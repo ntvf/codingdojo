@@ -152,9 +152,7 @@
 
         <!-- Checks for class design                         -->
         <!-- See https://checkstyle.org/checks/design/index.html -->
-        <module name="HideUtilityClassConstructor">
-            <property name="ignoreAnnotatedBy" value="UtilityClass"/>
-        </module>
+        <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType"/>
 
         <!-- Miscellaneous other checks.                   -->

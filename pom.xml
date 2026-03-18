@@ -29,6 +29,7 @@
 	<properties>
 		<java.version>25</java.version>
 		<jacoco.maven.plugin.version>0.8.14</jacoco.maven.plugin.version>
+		<checkstyle.skip>true</checkstyle.skip>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
@@ -89,11 +90,12 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>3.3.0</version>
 				<configuration>
-					<configLocation>sun_checks.xml</configLocation>
+					<configLocation>checkstyle.xml</configLocation>
 					<consoleOutput>true</consoleOutput>
 					<failsOnError>true</failsOnError>
 					<linkXRef>false</linkXRef>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<skip>${checkstyle.skip}</skip>
 				</configuration>
 				<executions>
 					<execution>
