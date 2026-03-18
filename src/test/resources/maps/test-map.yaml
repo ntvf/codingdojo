@@ -1,0 +1,8 @@
+name: "Snake Arena 1"
+type: "grid"
+width: 20
+height: 20
+config:
+  spawnPoints: 4
+  foodSpawnRate: 0.3
+  wallDensity: 0.15
