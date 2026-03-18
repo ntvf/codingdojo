@@ -1,0 +1,8 @@
+name: "Snake 10x10"
+type: "snake"
+width: 10
+height: 10
+config:
+  difficulty: easy
+  initialSnakeLength: 3
+  foodSpawnRate: 0.2

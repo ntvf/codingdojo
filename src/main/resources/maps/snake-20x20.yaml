@@ -1,0 +1,8 @@
+name: "Snake 20x20"
+type: "snake"
+width: 20
+height: 20
+config:
+  difficulty: medium
+  initialSnakeLength: 4
+  foodSpawnRate: 0.15
