@@ -28,8 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>25</java.version>
-		<jacoco.maven.plugin.version>0.8.12</jacoco.maven.plugin.version>
-		<jacoco.skip>true</jacoco.skip>
+		<jacoco.maven.plugin.version>0.8.14</jacoco.maven.plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
@@ -105,15 +104,10 @@
 			</plugin>
 
 			<!-- JaCoCo: Code coverage agent -->
-			<!-- NOTE: Skipped by default due to Java 25 bytecode compatibility issues -->
-			<!-- Enable with: mvn clean install -Djacoco.skip=false -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco.maven.plugin.version}</version>
-				<configuration>
-					<skip>${jacoco.skip}</skip>
-				</configuration>
 				<executions>
 					<!-- Prepare JaCoCo agent before unit tests -->
 					<execution>
@@ -137,7 +131,6 @@
 						</goals>
 						<configuration>
 							<destFile>${project.build.directory}/jacoco/integration.exec</destFile>
-							<skip>${jacoco.skip}</skip>
 						</configuration>
 					</execution>
 
@@ -166,7 +159,6 @@
 									</limits>
 								</rule>
 							</rules>
-							<skip>${jacoco.skip}</skip>
 						</configuration>
 					</execution>
 

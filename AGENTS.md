@@ -92,26 +92,26 @@ This command:
 - Cleans the build directory
 - Runs Checkstyle with Sun formatting standards (code style validation)
 - Compiles all source code
-- Runs Surefire unit tests (`*Test.java` files)
-- Runs Failsafe integration tests (`*IT.java` files)
-- Enforces JaCoCo code coverage minimums (when enabled):
-  - Unit tests: **minimum 80% branch coverage**
-  - Integration tests: **minimum 60% branch coverage**
+- Runs Surefire unit tests (`*Test.java` files) with JaCoCo coverage tracking
+- Runs Failsafe integration tests (`*IT.java` files) with JaCoCo coverage tracking
+- Enforces JaCoCo code coverage minimums:
+  - Unit tests: **minimum 80% branch coverage** (fails build if below)
+  - Integration tests: **minimum 60% branch coverage** (fails build if below)
 - Packages the application
 
-**CRITICAL**: Do NOT commit or push unless `mvn clean install` succeeds with all tests passing. If tests fail, fix the issues and re-run until success.
+**CRITICAL**: Do NOT commit or push unless `mvn clean install` succeeds with all tests passing AND all coverage thresholds are met. If tests fail or coverage is insufficient, fix the issues and re-run until success.
 
-**Code Coverage Quality Gates:**
+**JaCoCo Code Coverage Gates** (ACTIVE):
 
-JaCoCo code coverage enforcement is currently skipped by default (`-Djacoco.skip=true`) due to Java 25 bytecode compatibility issues. When JaCoCo support for Java 25 is available, enable with:
+JaCoCo code coverage enforcement is now **ENABLED** (requires JaCoCo 0.8.14+ for Java 25 support).
 
-```sh
-./mvnw clean install -Dcheckstyle.skip=true -Djacoco.skip=false
-```
-
-When enabled, the build will fail if:
+The build will fail if:
 - Unit test branch coverage falls below **80%**
 - Integration test branch coverage falls below **60%**
+
+Coverage reports are generated in:
+- Unit tests: `target/jacoco/unit/index.html`
+- Integration tests: `target/jacoco/integration/index.html`
 
 The `.envrc` file in the repository root sets up Java automatically for bash terminal sessions. Activate it with `direnv allow` or load manually if needed.
 
