@@ -1,5 +1,6 @@
 package me._on.codingdojo.server.room;
 
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import me._on.codingdojo.server.api.error.InvalidRequestException;
@@ -40,7 +41,15 @@ public class PlayerService {
                 .orElseThrow(() -> new InvalidRequestException("Invalid token"));
     }
 
+    public List<Player> findByRoomId(UUID roomId) {
+        if (roomId == null) {
+            throw new InvalidRequestException("Room ID cannot be null");
+        }
+        return playerRepository.findByRoomId(roomId);
+    }
+
     private String generatePlayerToken() {
         return UUID.randomUUID().toString();
     }
 }
+

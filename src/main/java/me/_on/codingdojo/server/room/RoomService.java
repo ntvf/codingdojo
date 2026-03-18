@@ -38,6 +38,13 @@ public class RoomService {
                 .orElseThrow(() -> new RoomNotFoundException("Room not found with code: " + code));
     }
 
+    public Room updateRoom(Room room) {
+        if (room == null || room.getId() == null) {
+            throw new InvalidRequestException("Room must have a valid ID");
+        }
+        return roomRepository.save(room);
+    }
+
     private String generateRoomCode() {
         return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
