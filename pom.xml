@@ -28,6 +28,9 @@
 	</scm>
 	<properties>
 		<java.version>25</java.version>
+		<jacoco.maven.plugin.version>0.8.12</jacoco.maven.plugin.version>
+		<jacoco.skip>true</jacoco.skip>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 <!--		<dependency>-->
@@ -80,6 +83,159 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+
+			<!-- Checkstyle: Sun formatting standards -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+					<configLocation>sun_checks.xml</configLocation>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
+					<linkXRef>false</linkXRef>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- JaCoCo: Code coverage agent -->
+			<!-- NOTE: Skipped by default due to Java 25 bytecode compatibility issues -->
+			<!-- Enable with: mvn clean install -Djacoco.skip=false -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.maven.plugin.version}</version>
+				<configuration>
+					<skip>${jacoco.skip}</skip>
+				</configuration>
+				<executions>
+					<!-- Prepare JaCoCo agent before unit tests -->
+					<execution>
+						<id>prepare-agent</id>
+						<phase>process-test-classes</phase>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<destFile>${project.build.directory}/jacoco/unit.exec</destFile>
+							<skip>${jacoco.skip}</skip>
+						</configuration>
+					</execution>
+
+					<!-- Prepare JaCoCo agent before integration tests -->
+					<execution>
+						<id>prepare-agent-integration</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+						<configuration>
+							<destFile>${project.build.directory}/jacoco/integration.exec</destFile>
+							<skip>${jacoco.skip}</skip>
+						</configuration>
+					</execution>
+
+					<!-- Unit test coverage check: minimum 80% branch coverage -->
+					<execution>
+						<id>check-unit-coverage</id>
+						<phase>test</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<dataFile>${project.build.directory}/jacoco/unit.exec</dataFile>
+							<rules>
+								<rule>
+									<element>BUNDLE</element>
+									<excludes>
+										<exclude>*Test</exclude>
+										<exclude>*IT</exclude>
+									</excludes>
+									<limits>
+										<limit>
+											<counter>BRANCH</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.80</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+							<skip>${jacoco.skip}</skip>
+						</configuration>
+					</execution>
+
+					<!-- Integration test coverage check: minimum 60% branch coverage -->
+					<execution>
+						<id>check-integration-coverage</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<dataFile>${project.build.directory}/jacoco/integration.exec</dataFile>
+							<rules>
+								<rule>
+									<element>BUNDLE</element>
+									<excludes>
+										<exclude>*Test</exclude>
+										<exclude>*IT</exclude>
+									</excludes>
+									<limits>
+										<limit>
+											<counter>BRANCH</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.60</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+							<skip>${jacoco.skip}</skip>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Surefire: Unit tests (*Test.java files) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/*IT.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			<!-- Failsafe: Integration tests (*IT.java files) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<includes>
+						<include>**/*IT.java</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
