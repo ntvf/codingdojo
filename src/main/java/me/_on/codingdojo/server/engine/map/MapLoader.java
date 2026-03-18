@@ -19,12 +19,6 @@ public class MapLoader {
 
     private final ResourcePatternResolver resourcePatternResolver;
 
-    /**
-     * Load a map configuration from a YAML file in the classpath.
-     * @param filePath path to the YAML file (e.g., "maps/snake-arena-1.yaml")
-     * @return MapConfig instance
-     * @throws IOException if file is not found or parsing fails
-     */
     public MapConfig loadMapFromFile(String filePath) throws IOException {
         Resource resource = new ClassPathResource(filePath);
         if (!resource.exists()) {
@@ -35,12 +29,6 @@ public class MapLoader {
         return loadMapFromYaml(yamlContent);
     }
 
-    /**
-     * Parse a map configuration from YAML content string.
-     * @param yamlContent YAML string content
-     * @return MapConfig instance
-     * @throws IOException if parsing fails
-     */
     public MapConfig loadMapFromYaml(String yamlContent) throws IOException {
         MapConfig mapConfig = YAML_MAPPER.readValue(yamlContent, MapConfig.class);
         if (mapConfig.getCreatedAt() == 0) {
@@ -49,12 +37,6 @@ public class MapLoader {
         return mapConfig;
     }
 
-    /**
-     * Load all map configurations from a directory.
-     * @param mapDirectory directory path (e.g., "maps")
-     * @return List of MapConfig instances
-     * @throws IOException if directory scan fails
-     */
     public List<MapConfig> loadAllMaps(String mapDirectory) throws IOException {
         List<MapConfig> maps = new ArrayList<>();
         String pattern = "classpath:" + mapDirectory + "/**/*.yaml";

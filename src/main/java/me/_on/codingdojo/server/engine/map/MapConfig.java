@@ -4,10 +4,6 @@ import java.util.Map;
 import lombok.Builder;
 import lombok.Data;
 
-/**
- * Configuration for a game map.
- * Contains dimensions, layout, and other map-specific settings.
- */
 @Data
 @Builder
 public class MapConfig {

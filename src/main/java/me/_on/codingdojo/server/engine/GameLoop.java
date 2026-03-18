@@ -15,12 +15,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Game loop service for managing scheduled game ticks.
- *
- * Maintains one game loop per active room, executing ticks at a configured rate.
- * Collects player moves, calls the game engine, updates state, and broadcasts changes.
- */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -29,12 +23,6 @@ public class GameLoop {
     private final Map<UUID, ScheduledFuture<?>> activeLoops = new ConcurrentHashMap<>();
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
 
-    /**
-     * Start a game loop for a room.
-     *
-     * @param roomId the UUID of the room
-     * @param session the game session containing state and engine
-     */
     public void startGameLoop(UUID roomId, GameSession session) {
         long tickRateMs = gameConfig.getTickRateMs();
         ScheduledFuture<?> future = executor.scheduleAtFixedRate(
@@ -47,11 +35,6 @@ public class GameLoop {
         log.info("Started game loop for room {}", roomId);
     }
 
-    /**
-     * Stop game loop for a room.
-     *
-     * @param roomId the UUID of the room
-     */
     public void stopGameLoop(UUID roomId) {
         ScheduledFuture<?> future = activeLoops.remove(roomId);
         if (future != null) {
@@ -60,11 +43,6 @@ public class GameLoop {
         }
     }
 
-    /**
-     * Execute one game tick.
-     *
-     * @param session the game session
-     */
     private void tickGameLoop(GameSession session) {
         try {
             Map<UUID, Move> moves = session.getAndClearPendingMoves();
