@@ -1,15 +1,11 @@
 package me._on.codingdojo.server.api.error;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class ErrorResponse {
+    private String code;
     private String message;
-    private int status;
 }
