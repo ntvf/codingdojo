@@ -1,7 +1,5 @@
 package me._on.codingdojo.server.model;
 
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,6 +8,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,8 +44,29 @@ public class Room {
     private String gameType;
 
     @Column(columnDefinition = "jsonb")
-    private Map<String, Object> settings;
+    private String settings;
 
-    @Column(columnDefinition = "jsonb")
-    private List<UUID> playerIds;
+    @Column(columnDefinition = "jsonb", name = "player_ids")
+    private String playerIds;
+
+    @Column(nullable = false, updatable = false)
+    private long createdAt;
+
+    @Column(nullable = false)
+    private long updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == 0) {
+            createdAt = System.currentTimeMillis();
+        }
+        if (updatedAt == 0) {
+            updatedAt = System.currentTimeMillis();
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = System.currentTimeMillis();
+    }
 }
