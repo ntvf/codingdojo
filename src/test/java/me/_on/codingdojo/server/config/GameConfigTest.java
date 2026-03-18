@@ -4,14 +4,15 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class GameConfigTest {
@@ -45,9 +46,9 @@ class GameConfigTest {
 
     @SpringBootTest
     @TestPropertySource(properties = {
-            "dojo.game.tickRateMs=100",
-            "dojo.game.maxPlayers=8",
-            "dojo.game.defaultRoundCount=10"
+        "dojo.game.tickRateMs=100",
+        "dojo.game.maxPlayers=8",
+        "dojo.game.defaultRoundCount=10"
     })
     static class CustomOverridesTest {
         @Autowired

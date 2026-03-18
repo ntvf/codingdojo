@@ -10,17 +10,19 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class JacksonConfiguration {
 
-@Bean
-public JavaTimeModule javaTimeModule() {
-return new JavaTimeModule();
+    @Bean
+    public JavaTimeModule javaTimeModule() {
+        return new JavaTimeModule();
+    }
+
+    @Bean
+    @Primary
+    public ObjectMapper objectMapper(JavaTimeModule javaTimeModule) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(javaTimeModule);
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
+        return mapper;
+    }
+
 }
 
-@Bean
-@Primary
-public ObjectMapper objectMapper(JavaTimeModule javaTimeModule) {
-ObjectMapper mapper = new ObjectMapper();
-mapper.registerModule(javaTimeModule);
-mapper.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
-return mapper;
-}
-}
