@@ -85,12 +85,11 @@ Base package: `me._on.codingdojo.server` (maps to groupId `me.9on.codingdojo`; t
 **Before creating any commit, agents MUST run:**
 
 ```sh
-./mvnw clean install -Dcheckstyle.skip=true
+./mvnw clean install
 ```
 
 This command:
 - Cleans the build directory
-- Runs Checkstyle with Sun formatting standards (code style validation)
 - Compiles all source code
 - Runs Surefire unit tests (`*Test.java` files) with JaCoCo coverage tracking
 - Runs Failsafe integration tests (`*IT.java` files) with JaCoCo coverage tracking
@@ -99,11 +98,26 @@ This command:
   - Integration tests: **minimum 60% branch coverage** (fails build if below)
 - Packages the application
 
+**Checkstyle Code Style Validation:**
+
+Checkstyle is configured with Sun/Oracle Java coding conventions (`checkstyle.xml`) but is skipped by default due to existing style violations in the codebase. To enable code style validation:
+
+```sh
+./mvnw clean install -Dcheckstyle.skip=false
+```
+
+When enabled, Checkstyle will validate:
+- Code indentation (4-space standard)
+- Import organization (no wildcard imports)
+- Naming conventions
+- Whitespace and formatting
+- Javadoc comments
+
 **CRITICAL**: Do NOT commit or push unless `mvn clean install` succeeds with all tests passing AND all coverage thresholds are met. If tests fail or coverage is insufficient, fix the issues and re-run until success.
 
 **JaCoCo Code Coverage Gates** (ACTIVE):
 
-JaCoCo code coverage enforcement is now **ENABLED** (requires JaCoCo 0.8.14+ for Java 25 support).
+JaCoCo code coverage enforcement is **ENABLED** (requires JaCoCo 0.8.14+ for Java 25 support).
 
 The build will fail if:
 - Unit test branch coverage falls below **80%**
