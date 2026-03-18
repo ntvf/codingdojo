@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.UUID;
 import me._on.codingdojo.server.AbstractIntegrationTest;
 import me._on.codingdojo.server.model.Player;
 import me._on.codingdojo.server.model.Room;
