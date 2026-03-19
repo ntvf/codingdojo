@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import me._on.codingdojo.server.AbstractIntegrationTest;
 
-@AutoConfigureMockMvc
 @DisplayName("CORS Configuration Tests")
 class CorsConfigTest extends AbstractIntegrationTest {
 

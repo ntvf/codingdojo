@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import me._on.codingdojo.server.AbstractIntegrationTest;
 
-@AutoConfigureMockMvc
 @DisplayName("Web Resource Configuration Tests")
 class WebResourceConfigTest extends AbstractIntegrationTest {
 

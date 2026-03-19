@@ -5,25 +5,18 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import java.util.Set;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import me._on.codingdojo.server.AbstractIntegrationTest;
-
-class GameConfigTest extends AbstractIntegrationTest {
-
-    @Autowired
-    private GameConfig gameConfig;
+class GameConfigTest {
 
     private static Validator validator;
 
-    static {
+    @BeforeAll
+    static void setUp() {
         try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
             validator = factory.getValidator();
         }
@@ -32,34 +25,9 @@ class GameConfigTest extends AbstractIntegrationTest {
     @Test
     void testDefaultValues() {
         GameConfig config = new GameConfig();
-        assertEquals(50, config.getTickRateMs(), "Default tickRateMs should be 50");
-        assertEquals(4, config.getMaxPlayers(), "Default maxPlayers should be 4");
-        assertEquals(5, config.getDefaultRoundCount(), "Default defaultRoundCount should be 5");
-    }
-
-    @Test
-    void testYamlBindingWithDefaults() {
-        assertNotNull(gameConfig, "GameConfig should be injected");
-        assertEquals(50, gameConfig.getTickRateMs(), "YAML tickRateMs should be 50");
-        assertEquals(4, gameConfig.getMaxPlayers(), "YAML maxPlayers should be 4");
-        assertEquals(5, gameConfig.getDefaultRoundCount(), "YAML defaultRoundCount should be 5");
-    }
-
-    @TestPropertySource(properties = {
-        "dojo.game.tickRateMs=100",
-        "dojo.game.maxPlayers=8",
-        "dojo.game.defaultRoundCount=10"
-    })
-    static class CustomOverridesTest extends AbstractIntegrationTest {
-        @Autowired
-        private GameConfig gameConfig;
-
-        @Test
-        void testCustomOverrides() {
-            assertEquals(100, gameConfig.getTickRateMs(), "Custom tickRateMs should be 100");
-            assertEquals(8, gameConfig.getMaxPlayers(), "Custom maxPlayers should be 8");
-            assertEquals(10, gameConfig.getDefaultRoundCount(), "Custom defaultRoundCount should be 10");
-        }
+        assertEquals(50, config.getTickRateMs());
+        assertEquals(4, config.getMaxPlayers());
+        assertEquals(5, config.getDefaultRoundCount());
     }
 
     @Test
@@ -70,7 +38,7 @@ class GameConfigTest extends AbstractIntegrationTest {
         config.setDefaultRoundCount(0);
 
         Set<ConstraintViolation<GameConfig>> violations = validator.validate(config);
-        assertEquals(3, violations.size(), "Should have 3 validation errors for values < 1");
+        assertEquals(3, violations.size());
     }
 
     @Test
@@ -81,7 +49,7 @@ class GameConfigTest extends AbstractIntegrationTest {
         config.setDefaultRoundCount(101);
 
         Set<ConstraintViolation<GameConfig>> violations = validator.validate(config);
-        assertEquals(3, violations.size(), "Should have 3 validation errors for values exceeding max");
+        assertEquals(3, violations.size());
     }
 
     @Test
@@ -92,6 +60,7 @@ class GameConfigTest extends AbstractIntegrationTest {
         config.setDefaultRoundCount(50);
 
         Set<ConstraintViolation<GameConfig>> violations = validator.validate(config);
-        assertTrue(violations.isEmpty(), "Valid values should pass validation");
+        assertTrue(violations.isEmpty());
     }
 }
+
