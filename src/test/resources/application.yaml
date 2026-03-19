@@ -4,11 +4,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
+    # Uses Testcontainers PostgreSQL via @ServiceConnection
+    # Connection details auto-configured by Spring Boot Testcontainers
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+  testcontainers:
+    postgresql:
       enabled: true
