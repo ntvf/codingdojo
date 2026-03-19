@@ -14,8 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import me._on.codingdojo.server.AbstractIntegrationTest;
+
 @SpringBootTest
-class GameConfigTest {
+class GameConfigTest extends AbstractIntegrationTest {
 
     @Autowired
     private GameConfig gameConfig;
@@ -50,7 +52,7 @@ class GameConfigTest {
         "dojo.game.maxPlayers=8",
         "dojo.game.defaultRoundCount=10"
     })
-    static class CustomOverridesTest {
+    static class CustomOverridesTest extends AbstractIntegrationTest {
         @Autowired
         private GameConfig gameConfig;
 

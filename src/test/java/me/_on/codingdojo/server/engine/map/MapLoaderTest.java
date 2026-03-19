@@ -10,8 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import me._on.codingdojo.server.AbstractIntegrationTest;
+
 @SpringBootTest
-class MapLoaderTest {
+class MapLoaderTest extends AbstractIntegrationTest {
     @Autowired
     private MapLoader mapLoader;
 

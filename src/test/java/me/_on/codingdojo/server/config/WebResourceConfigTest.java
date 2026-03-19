@@ -10,10 +10,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import me._on.codingdojo.server.AbstractIntegrationTest;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("Web Resource Configuration Tests")
-class WebResourceConfigTest {
+class WebResourceConfigTest extends AbstractIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;

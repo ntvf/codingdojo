@@ -9,9 +9,11 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import me._on.codingdojo.server.AbstractIntegrationTest;
+
 @SpringBootTest
 @DisplayName("Spring Configuration Beans Tests")
-class ConfigurationBeansTest {
+class ConfigurationBeansTest extends AbstractIntegrationTest {
 
     @Autowired(required = false)
     private CorsConfig corsConfig;
