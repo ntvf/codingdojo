@@ -43,10 +43,10 @@ public class Room {
     @Column(name = "game_type")
     private String gameType;
 
-    @Column(columnDefinition = "jsonb")
+    @Column
     private String settings;
 
-    @Column(columnDefinition = "jsonb", name = "player_ids")
+    @Column(name = "player_ids")
     private String playerIds;
 
     @Column(nullable = false, updatable = false)
