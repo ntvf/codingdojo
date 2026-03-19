@@ -49,7 +49,7 @@ class StatsCollectorTest {
             .roomId(roomId)
             .snakeBody(List.of(new Point(10, 10)))
             .direction(SnakeMove.RIGHT)
-            .food(new Point(15, 15))
+            .foodLocation(new Point(15, 15))
             .score(100)
             .build();
     }
