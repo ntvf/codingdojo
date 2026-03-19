@@ -11,4 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MoveRequest {
     private Object payload;
+    
+    public MoveRequest(Object payload) {
+        this.payload = payload;
+    }
 }
