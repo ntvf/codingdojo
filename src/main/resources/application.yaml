@@ -20,6 +20,18 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true
 
+  web:
+    resources:
+      static-locations: classpath:/static/
+      cache:
+        period: 31536000
+      chain:
+        enabled: true
+        strategy:
+          content:
+            enabled: true
+            paths: "/static/**,/*.js,/*.css"
+
 logging:
   level:
     org.liquibase: INFO
