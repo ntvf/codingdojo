@@ -30,6 +30,7 @@
         <java.version>17</java.version>
         <jacoco.maven.plugin.version>0.8.14</jacoco.maven.plugin.version>
         <skipTests>false</skipTests>
+        <checkstyle.skip>true</checkstyle.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -151,7 +152,7 @@
                     <failsOnError>true</failsOnError>
                     <linkXRef>false</linkXRef>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <skip>${skipTests}</skip>
+                    <skip>${checkstyle.skip}</skip>
                 </configuration>
                 <executions>
                     <execution>

@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: 001-create-rooms-and-players.yaml
+  - include:
+      file: 2026-03-19-create-game-results-table.yaml
