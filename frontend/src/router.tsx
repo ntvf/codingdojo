@@ -19,6 +19,10 @@ export const router = createBrowserRouter([
         element: <LobbyPage />,
       },
       {
+        path: '/room/:roomCode/play',
+        element: <GamePage />,
+      },
+      {
         path: '/room/:roomCode/results',
         element: <ResultsPage />,
       },
