@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import me._on.codingdojo.server.AbstractIntegrationTest;
 
-@SpringBootTest
 class MapLoaderTest extends AbstractIntegrationTest {
     @Autowired
     private MapLoader mapLoader;

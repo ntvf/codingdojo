@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import me._on.codingdojo.server.AbstractIntegrationTest;
 
-@SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("SpaController Tests")
 class SpaControllerTest extends AbstractIntegrationTest {
@@ -72,8 +71,7 @@ class SpaControllerTest extends AbstractIntegrationTest {
     @DisplayName("Should NOT forward API routes - API endpoints take precedence")
     void testApiRoutesNotForwarded() throws Exception {
         mockMvc.perform(get("/api/stats/leaderboard"))
-            .andExpect(status().isOk())
-            .andExpect(header().exists("Content-Type"));
+            .andExpect(forwardedUrl(null));
     }
 
     @Test

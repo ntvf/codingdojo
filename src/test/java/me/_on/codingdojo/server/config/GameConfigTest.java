@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import me._on.codingdojo.server.AbstractIntegrationTest;
 
-@SpringBootTest
 class GameConfigTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -46,7 +45,6 @@ class GameConfigTest extends AbstractIntegrationTest {
         assertEquals(5, gameConfig.getDefaultRoundCount(), "YAML defaultRoundCount should be 5");
     }
 
-    @SpringBootTest
     @TestPropertySource(properties = {
         "dojo.game.tickRateMs=100",
         "dojo.game.maxPlayers=8",

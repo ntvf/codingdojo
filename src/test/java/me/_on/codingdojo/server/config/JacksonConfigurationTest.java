@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import me._on.codingdojo.server.AbstractIntegrationTest;
 
-@SpringBootTest
 class JacksonConfigurationTest extends AbstractIntegrationTest {
 
     @Autowired
