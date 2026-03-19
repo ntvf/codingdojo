@@ -26,7 +26,20 @@ class CorsConfigTest {
                 .header("Access-Control-Request-Method", "GET"))
             .andExpect(status().isOk())
             .andExpect(header().exists("Access-Control-Allow-Origin"))
-            .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:5173"));
+            .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:5173"))
+            .andExpect(header().string("Access-Control-Allow-Credentials", "true"))
+            .andExpect(header().exists("Access-Control-Allow-Methods"));
+    }
+
+    @Test
+    @DisplayName("Should include CORS headers on preflight requests from localhost:3000")
+    void testCorsHeadersForLocalhost3000() throws Exception {
+        mockMvc.perform(options("/api/stats")
+                .header("Origin", "http://localhost:3000")
+                .header("Access-Control-Request-Method", "GET"))
+            .andExpect(status().isOk())
+            .andExpect(header().exists("Access-Control-Allow-Origin"))
+            .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:3000"));
     }
 
     @Test
@@ -38,6 +51,16 @@ class CorsConfigTest {
             .andExpect(status().isOk())
             .andExpect(header().exists("Access-Control-Allow-Origin"))
             .andExpect(header().string("Access-Control-Allow-Origin", "http://127.0.0.1:5173"));
+    }
+
+    @Test
+    @DisplayName("Should include CORS headers on preflight requests from 127.0.0.1:3000")
+    void testCorsHeadersForLoopback3000() throws Exception {
+        mockMvc.perform(options("/api/game")
+                .header("Origin", "http://127.0.0.1:3000")
+                .header("Access-Control-Request-Method", "POST"))
+            .andExpect(status().isOk())
+            .andExpect(header().string("Access-Control-Allow-Origin", "http://127.0.0.1:3000"));
     }
 
     @Test
@@ -57,7 +80,8 @@ class CorsConfigTest {
                 .header("Origin", "http://localhost:5173")
                 .header("Access-Control-Request-Method", "PUT"))
             .andExpect(status().isOk())
-            .andExpect(header().exists("Access-Control-Allow-Methods"));
+            .andExpect(header().exists("Access-Control-Allow-Methods"))
+            .andExpect(header().exists("Access-Control-Max-Age"));
     }
 
     @Test
@@ -88,4 +112,3 @@ class CorsConfigTest {
             .andExpect(header().exists("Access-Control-Allow-Origin"));
     }
 }
-

@@ -19,16 +19,17 @@ class WebResourceConfigTest {
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("Should handle static resource paths")
-    void testStaticResourceHandling() throws Exception {
-        mockMvc.perform(get("/static/test.css"))
-            .andExpect(status().isNotFound());
+    @DisplayName("Should serve root index page")
+    void testIndexPageServing() throws Exception {
+        mockMvc.perform(get("/"))
+            .andExpect(status().isOk())
+            .andExpect(forwardedUrl("/index.html"));
     }
 
     @Test
-    @DisplayName("Should be configured for resource serving")
-    void testResourceServingConfiguration() throws Exception {
-        mockMvc.perform(get("/"))
+    @DisplayName("Should have web resource configuration active")
+    void testWebResourceConfigurationActive() throws Exception {
+        mockMvc.perform(get("/app"))
             .andExpect(status().isOk());
     }
 }
