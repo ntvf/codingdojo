@@ -6,11 +6,11 @@ spring:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    # Uses Testcontainers PostgreSQL via @ServiceConnection
-    # Connection details auto-configured by Spring Boot Testcontainers
+    # Placeholder - overridden by Testcontainers @ServiceConnection
+    url: jdbc:postgresql://localhost:5432/codingdojo
+    username: codingdojo
+    password: codingdojo
+    driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 5
       minimum-idle: 1
-  testcontainers:
-    postgresql:
-      enabled: true
